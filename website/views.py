@@ -23,7 +23,17 @@ def _get_current_year_month():
     return now.month, now.year
 
 
-def index(request, is_user=None):
+def index(request):
+    user = request.user
+    if user.is_authenticated:
+        template = "user.html"
+    else:
+        template = "base.html"
+    context = {"template": template}
+    return render(request, 'index.html', context)
+
+
+def show_calendar(request, is_user=None):
     user = request.user
     if user.is_authenticated:
         template = "user.html"
@@ -39,7 +49,7 @@ def index(request, is_user=None):
     bookings = bookings.values("creator__first_name", "creator__last_name",
              "start_date_time", "end_date_time", "resource__name")
     context = {"bookings": bookings, "template": template}
-    return render(request, 'index.html', context)
+    return render(request, 'calendar.html', context)
 
 
 def user_login(request):

@@ -4,8 +4,9 @@ from website import views
 app_name = "website"
 
 urlpatterns = [
-	path('', views.index, name="index"),
-	path('<int:is_user>', views.index, name="index"),
+    path('', views.index, name="index"),
+    path('calendar', views.show_calendar, name="show_calendar"),
+    path('calendar/<int:is_user>', views.show_calendar, name="show_calendar"),
     path('login', views.user_login, name="login"),
     path('logout', views.user_logout, name="logout"),
     path('profile', views.add_or_edit_profile, name="profile"),
