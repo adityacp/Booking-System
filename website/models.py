@@ -95,17 +95,6 @@ class ResourceSlot(models.Model):
                 not self._validate_date(self.start_date_time)):
             msg = 'Only current month booking is allowed'
             raise ValidationError({'start_date_time': msg})
-        if not self.id:
-            query = dedent("""\
-                select id from website_resourceslot where %s between
-                start_date_time and end_date_time and resource_id = %s
-                """)
-            slot = ResourceSlot.objects.raw(
-                query, [self.start_date_time, self.resource.id]
-            )
-            if slot:
-                msg = 'Slot is already booked for {0}'.format(self.resource)
-                raise ValidationError({'start_date_time': msg})
 
     def _validate_date(self, date):
         now = timezone.now()

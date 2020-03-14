@@ -1,6 +1,12 @@
+# Python Imports
+from textwrap import dedent
+import pandas as pd
+
+# Django Imports
 from django import forms
 from django.contrib.auth import authenticate
 
+# Local Imports
 from .models import Profile, ResourceSlot, Participant
 
 # Bootstrap class for form inputs
@@ -104,6 +110,28 @@ class SlotForm(forms.ModelForm):
         self.fields['description'].widget.attrs.update(
             {'class': form_input_class, 'placeholder': 'Description'}
         )
+
+    def clean(self):
+        current_exists = ResourceSlot.objects.filter(
+            resource_id=self.cleaned_data["resource"].id,
+            start_date_time=self.cleaned_data["start_date_time"],
+            end_date_time=self.cleaned_data["end_date_time"]
+        ).exists()
+        if not current_exists:
+            all_bookings = ResourceSlot.objects.filter(
+                resource_id=self.cleaned_data["resource"].id
+            ).values("start_date_time", "end_date_time")
+            df = pd.DataFrame(all_bookings)
+            if not df.empty:
+                cur_start = self.cleaned_data["start_date_time"]
+                cur_end = self.cleaned_data["end_date_time"]
+                mask1 = (cur_start <= df["start_date_time"]) & (cur_end >= df["start_date_time"])
+                mask2 = (cur_start <= df["end_date_time"]) & (cur_end >= df["end_date_time"])
+                if any(mask1) or any(mask2):
+                    msg = 'Slot is already booked for {0} between the timings'.format(
+                        self.cleaned_data["resource"]
+                    )
+                    raise forms.ValidationError({'start_date_time': msg})
 
 
 class ParticipantForm(forms.ModelForm):

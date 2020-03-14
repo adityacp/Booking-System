@@ -15,6 +15,7 @@ Requirements
 - django-auth-ldap 2.1.0
 - django-recurrence 1.10.2
 - python-ldap 3.2.0
+- pandas 1.0.1
 
 Installation
 ^^^^^^^^^^^^
