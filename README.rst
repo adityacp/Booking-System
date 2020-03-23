@@ -16,6 +16,7 @@ Requirements
 - django-recurrence 1.10.2
 - python-ldap 3.2.0
 - pandas 1.0.1
+- mysqlclient 1.4.6
 
 Installation
 ^^^^^^^^^^^^
