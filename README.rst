@@ -27,12 +27,22 @@ Installation
       ::
        
           $ sudo apt-get install libsasl2-dev python3-dev libldap2-dev libssl-dev
+          
+      ::
+       
+          $ sudo apt-get install default-libmysqlclient-dev
+      
       
       **Centos/RedHat**
       
       ::
           
           $ sudo yum install python3-devel openldap-devel
+          
+      ::
+          
+          $ sudo yum install mysql-devel
+  
   
 -  Clone the repository
 
