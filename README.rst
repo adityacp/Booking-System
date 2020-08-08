@@ -64,9 +64,23 @@ Installation
 
           $ pip install -r requirements.txt
 
+- Run Migrations
+
+      ::
+
+          $ python manage.py makemigrations
+          $ python manage.py makemigrations website
+          $ python manage.py migrate
+
 
 - Create superuser
 
       ::
 
           $ python manage.py createsuperuser
+
+- Run the django server
+
+      ::
+
+          $ python manage.py runserver
